@@ -1,18 +1,18 @@
-#ifndef MYRECT_H
-#define MYRECT_H
+#ifndef PLAYER_H
+#define PLAYER_H
 
-#include <QGraphicsRectItem>
+#include <QGraphicsPixmapItem>
+#include <QKeyEvent>
 
-class Player: public QGraphicsPixmapItem{
+class Player : public QGraphicsPixmapItem
+{
 public:
-    Player();
-    void keyPressEvent(QKeyEvent * event);
+    Player(QGraphicsItem *parent = nullptr);
+
+    void keyPressEvent(QKeyEvent *event);
+
+private:
+    int stepSize;
 };
 
-class PlayerTwo: public QGraphicsPixmapItem{
-public:
-    PlayerTwo();
-    void keyPressEvent(QKeyEvent * event);
-};
-
-#endif // MYRECT_H
+#endif // PLAYER_H
