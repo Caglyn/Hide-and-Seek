@@ -5,7 +5,7 @@
 Ghost::Ghost(const QString& imagePath, QGraphicsItem* parent) : QObject(), QGraphicsPixmapItem(parent)
 {
     QPixmap ghostImage(imagePath);
-    setPixmap(ghostImage.scaled(30, 30)); // Set the size of the ghost image
+    setPixmap(ghostImage.scaled(25, 25)); // Set the size of the ghost image
     stepSize = 5;
 
     timer = new QTimer(this);
@@ -14,7 +14,7 @@ Ghost::Ghost(const QString& imagePath, QGraphicsItem* parent) : QObject(), QGrap
 
 void Ghost::startMoving()
 {
-    timer->start(100); // Adjust the interval as needed
+    timer->start(200); // Adjust the interval as needed
 }
 
 void Ghost::move()

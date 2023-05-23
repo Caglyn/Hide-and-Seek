@@ -1,6 +1,7 @@
 #include "player.h"
+#include <QPainter>
 
-Player::Player(const QString& imagePath, QGraphicsItem *parent) : QGraphicsPixmapItem(parent)
+Player::Player(const QString& imagePath, QGraphicsItem *parent) : QGraphicsPixmapItem(parent), viewRange(150)
 {
     QPixmap playerImage(imagePath);
     setPixmap(playerImage.scaled(50, 50)); // Set the size of the player image
@@ -45,4 +46,24 @@ void Player::keyPressEvent(QKeyEvent *event)
     default:
         break;
     }
+}
+
+void Player::setViewRange(qreal range){
+    viewRange = range;
+}
+
+QRectF Player::boundingRect() const{
+    return QRectF(-viewRange + 25, -viewRange + 25, viewRange * 2, viewRange * 2);
+}
+
+void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+    setViewRange(75);
+    QPointF center = boundingRect().center();
+
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(QColor(250, 250, 250, 150));
+    painter->setRenderHint(QPainter::Antialiasing);
+    painter->drawEllipse(center, viewRange, viewRange);
+
+    QGraphicsPixmapItem::paint(painter, option, widget);
 }

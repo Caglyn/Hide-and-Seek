@@ -1,5 +1,6 @@
 #include <QApplication>
 #include "gameview.h"
+#include <QGraphicsView>
 
 int main(int argc, char *argv[])
 {
@@ -10,6 +11,7 @@ int main(int argc, char *argv[])
     view.setFixedSize(800, 600);
     view.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     view.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
     view.show();
 
     return app.exec();
