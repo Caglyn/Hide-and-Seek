@@ -61,6 +61,26 @@ void GameView::checkCollisions()
             delete ghost;
         }
     }
+    if (ghosts.isEmpty()) {
+        // Game over, determine the winner
+        Player* winner = nullptr;
+        if (scorePlayer1 > scorePlayer2) {
+            winner = player1;
+        } else if (scorePlayer2 > scorePlayer1) {
+            winner = player2;
+        }
+
+        QString message;
+        if (winner == player1) {
+            message = "Pink Alien wins!";
+        }
+        else if (winner == player2) {
+            message = "Green Alien wins!";
+        }
+
+        QMessageBox::information(this, "Game Over", message);
+        QApplication::quit();
+    }
 }
 
 void GameView::addGhost(const QString& imagePath, qreal x, qreal y)
