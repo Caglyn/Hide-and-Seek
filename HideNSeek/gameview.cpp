@@ -85,9 +85,9 @@ inline void GameView::checkCollisions()
     if (ghosts.isEmpty()) {
         // Game over, determine the winner
         if (scorePlayer1 > scorePlayer2) {
-            message = "Pink Alien wins!"; // Pink alien is player1
+            message = "Green Alien wins!"; // Pink alien is player1
         } else {
-            message = "Green Alien wins!"; // Green alien is player2
+            message = "Pink Alien wins!"; // Green alien is player2
         }
         QMessageBox::information(this, "Game Over", message);
         QApplication::quit();
