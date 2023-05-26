@@ -122,4 +122,3 @@ void GameView::updateScore(Player* player)
         qDebug() << "Error updating score: " << e.what();
     }
 }
-
