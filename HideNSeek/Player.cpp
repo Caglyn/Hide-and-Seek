@@ -74,3 +74,4 @@ void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 
     QGraphicsPixmapItem::paint(painter, option, widget);
 }
+
