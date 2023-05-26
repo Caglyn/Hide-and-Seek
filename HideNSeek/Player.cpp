@@ -57,7 +57,7 @@ void Player::setViewRange(qreal range=1){
 }
 
 QRectF Player::boundingRect() const{
-    return QRectF(-viewRange + 25, -viewRange + 25, viewRange * 2, viewRange * 2);
+    return QRectF(-viewRange + 25, -viewRange + 25, viewRange*2 , viewRange *2);
 }
 
 void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
@@ -68,8 +68,8 @@ void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     vision = new QGraphicsEllipseItem(-viewRange, -viewRange, viewRange * 2, viewRange * 2, this);
     vision->setPos(center);
     vision->setPen(Qt::NoPen);
-    vision->setBrush(QColor(250, 150, 150, 150));
     vision->setZValue(-1);
+
     //vision->setVisible(false);
 
     QGraphicsPixmapItem::paint(painter, option, widget);
