@@ -11,12 +11,13 @@ GameView::GameView(QWidget *parent) : QGraphicsView(parent), scene(new QGraphics
     //scene->setBackgroundBrush(Qt::black);
     scene->setBackgroundBrush(QBrush(QImage(":/Images/Sprites/sky.jpg")));
 
+    setRenderHint(QPainter::Antialiasing);
     player1 = new Player(":/Images/Sprites/alienGreen.png"); // Replace ":/images/player1.png" with the actual path to player1's image file
     player2 = new Player(":/Images/Sprites/alienPink.png"); // Replace ":/images/player2.png" with the actual path to player2's image file
     player1->setPos(200, 50);// Set initial position for player1
     player2->setPos(100, 50);// Set initial position for player2
 
-    setFrameShape(QFrame::NoFrame);
+
 
     scene->addItem(player1);
     scene->addItem(player2);
@@ -27,7 +28,7 @@ GameView::GameView(QWidget *parent) : QGraphicsView(parent), scene(new QGraphics
     addGhost(":/Images/Sprites/ghost_normal.png", 200, 400); // Replace ":/images/ghost4.png" with the actual path to the ghost image file
     addGhost(":/Images/Sprites/ghost_normal.png", 350, 150); // Replace ":/images/ghost5.png" with the actual path to the ghost image file
 
-    setRenderHint(QPainter::Antialiasing);
+
     setWindowTitle("Hide and Seek");
 
 
@@ -121,3 +122,4 @@ void GameView::updateScore(Player* player)
         qDebug() << "Error updating score: " << e.what();
     }
 }
+
