@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/Images">
+        <file>Sprites/alienGreen.png</file>
+        <file>Sprites/alienPink.png</file>
+        <file>Sprites/ghost_normal.png</file>
+        <file>Sprites/sky.jpg</file>
+    </qresource>
+</RCC>
