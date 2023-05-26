@@ -48,10 +48,12 @@ void Player::keyPressEvent(QKeyEvent *event)
     }
 }
 
-void Player::setViewRange(qreal range){
-    viewRange = range;
+//using the default parameter
+void Player::setViewRange(qreal range=1){
+    for(int i = 0; i < range; ++i) {
+        viewRange = range;
 }
-
+}
 QRectF Player::boundingRect() const{
     return QRectF(-viewRange + 25, -viewRange + 25, viewRange * 2, viewRange * 2);
 }
