@@ -6,8 +6,9 @@ Player::Player(const QString& imagePath, QGraphicsItem *parent) : QGraphicsPixma
     QPixmap playerImage(imagePath);
     setPixmap(playerImage.scaled(50, 50)); // Set the size of the player image
     stepSize = 10;
-    setZValue(1);
+    setZValue(1); // Set a higher zValue for the player items
 }
+
 
 void Player::keyPressEvent(QKeyEvent *event)
 {
@@ -57,10 +58,11 @@ void Player::setViewRange(qreal range=1){
 }
 
 QRectF Player::boundingRect() const{
-    return QRectF(-viewRange + 25, -viewRange + 25, viewRange*2 , viewRange *2);
+    return QRectF(-viewRange + 25, -viewRange + 25, viewRange * 2, viewRange * 2);
 }
 
-void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
+void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
     setViewRange(100);
     QPointF center = boundingRect().center();
 
@@ -68,10 +70,9 @@ void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     vision = new QGraphicsEllipseItem(-viewRange, -viewRange, viewRange * 2, viewRange * 2, this);
     vision->setPos(center);
     vision->setPen(Qt::NoPen);
+    vision->setBrush(QColor(250, 150, 150, 1));
     vision->setZValue(-1);
-
-    //vision->setVisible(false);
+    //vision->setVisible(false); // Remove this line or change it to vision->setVisible(true);
 
     QGraphicsPixmapItem::paint(painter, option, widget);
 }
-
