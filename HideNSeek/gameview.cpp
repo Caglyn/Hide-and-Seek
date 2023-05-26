@@ -98,6 +98,7 @@ inline void GameView::checkCollisions()
 
 void GameView::addGhost(const QString& imagePath, qreal x, qreal y)
 {
+    //explicit heap dynamic variable
     Ghost* ghost = new Ghost(imagePath);
     ghost->setPos(x, y);
     scene->addItem(ghost);
