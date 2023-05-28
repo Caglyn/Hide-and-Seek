@@ -25,7 +25,6 @@ void Ghost::move()
         int dx = QRandomGenerator::global()->bounded(-stepSize, stepSize + 2);
         int dy = QRandomGenerator::global()->bounded(-stepSize, stepSize + 2);
 
-        // Ensure the ghost stays within the scene's bounds
         QRectF sceneBounds = scene()->sceneRect();
         QRectF ghostBounds = boundingRect().translated(pos() + QPointF(dx, dy));
         if (sceneBounds.contains(ghostBounds)) {

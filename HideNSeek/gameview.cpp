@@ -1,14 +1,11 @@
 #include "gameview.h"
 #include "qapplication.h"
-#include <QInputDialog>
-#include <QMessageBox>
-#include <QString>
 
-//constructor
+
+// Constructor
 GameView::GameView(QWidget *parent) : QGraphicsView(parent), scene(new QGraphicsScene(this)), scorePlayer1(0), scorePlayer2(0)
 {
     setScene(scene);
-    //scene->setBackgroundBrush(Qt::black);
     scene->setBackgroundBrush(QBrush(QImage(":/Images/Sprites/sky.jpg")));
 
     player1 = new Player(":/Images/Sprites/alienGreen.png");
@@ -42,13 +39,15 @@ GameView::GameView(QWidget *parent) : QGraphicsView(parent), scene(new QGraphics
     scene->addItem(scoreTextPlayer1);
     scene->addItem(scoreTextPlayer2);
 
+    // Add the players to the scene
     scene->addItem(player1);
     scene->addItem(player2);
 
-    addGhost(":/Images/Sprites/ghost_normal.png", 725, 20); // Sağ yukarı
-    addGhost(":/Images/Sprites/ghost_normal.png", 125, 550); // Sol aşağı
-    addGhost(":/Images/Sprites/ghost_normal.png", 25, 400); // Sol aşağı sol çarpraz
-    addGhost(":/Images/Sprites/ghost_normal.png", 650, 200); // Sağ yukarı sol çarpraz
+    // Add the ghosts to the scene
+    addGhost(":/Images/Sprites/ghost_normal.png", 725, 20);
+    addGhost(":/Images/Sprites/ghost_normal.png", 125, 550);
+    addGhost(":/Images/Sprites/ghost_normal.png", 25, 400);
+    addGhost(":/Images/Sprites/ghost_normal.png", 650, 200);
     addGhost(":/Images/Sprites/ghost_normal.png", 400, 375);
     addGhost(":/Images/Sprites/ghost_normal.png", 200, 220);
     addGhost(":/Images/Sprites/ghost_normal.png", 400, 100);
@@ -62,7 +61,7 @@ GameView::GameView(QWidget *parent) : QGraphicsView(parent), scene(new QGraphics
     collisionTimer->start(100); // Adjust the interval as needed
 }
 
-//Destructor
+// Destructor
 GameView::~GameView()
 {
     qDeleteAll(ghosts);
@@ -81,7 +80,7 @@ void GameView::keyPressEvent(QKeyEvent *event)
     }
 }
 
-//Using the inline function
+// Using the inline function
 inline void GameView::checkCollisions()
 {
     foreach (Ghost* ghost, ghosts) {

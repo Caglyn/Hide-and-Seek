@@ -49,7 +49,7 @@ void Player::keyPressEvent(QKeyEvent *event)
     }
 }
 
-//Using the default parameter
+// Using the default parameter
 void Player::setViewRange(qreal range=1){
     for(int i = 0; i < range; ++i) {
         viewRange = range;
@@ -71,7 +71,6 @@ void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     vision->setPen(Qt::NoPen);
     vision->setBrush(QColor(250, 150, 150, 1));
     vision->setZValue(-1);
-    //vision->setVisible(false); // Remove this line or change it to vision->setVisible(true);
 
     QGraphicsPixmapItem::paint(painter, option, widget);
 }

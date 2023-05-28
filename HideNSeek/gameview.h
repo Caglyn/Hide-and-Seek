@@ -8,6 +8,9 @@
 #include "player.h"
 #include "ghost.h"
 #include <QGraphicsTextItem>
+#include <QInputDialog>
+#include <QMessageBox>
+#include <QString>
 
 class GameView : public QGraphicsView
 {
