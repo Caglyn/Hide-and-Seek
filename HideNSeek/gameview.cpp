@@ -11,26 +11,51 @@ GameView::GameView(QWidget *parent) : QGraphicsView(parent), scene(new QGraphics
     //scene->setBackgroundBrush(Qt::black);
     scene->setBackgroundBrush(QBrush(QImage(":/Images/Sprites/sky.jpg")));
 
-    setRenderHint(QPainter::Antialiasing);
-    player1 = new Player(":/Images/Sprites/alienGreen.png"); // Replace ":/images/player1.png" with the actual path to player1's image file
-    player2 = new Player(":/Images/Sprites/alienPink.png"); // Replace ":/images/player2.png" with the actual path to player2's image file
-    player1->setPos(200, 50);// Set initial position for player1
-    player2->setPos(100, 50);// Set initial position for player2
+    player1 = new Player(":/Images/Sprites/alienGreen.png");
+    player2 = new Player(":/Images/Sprites/alienPink.png");
+    player1->setPos(0, 0); // Set initial position for player1
+    player2->setPos(750, 550); // Set initial position for player2
 
+    // Create the score display items
+    scoreTextPlayer1 = new QGraphicsTextItem();
+    scoreTextPlayer1->setZValue(2);
+    scoreTextPlayer2 = new QGraphicsTextItem();
+    scoreTextPlayer2->setZValue(2);
 
+    // Set the initial positions of the score text items
+    scoreTextPlayer1->setPos(700, 10);
+    scoreTextPlayer2->setPos(10, 550);
+
+    // Set the font color of the score text items to white
+    QFont font("Arial", 14, QFont::Bold);
+    QBrush textBrush(QColorConstants::Svg::greenyellow);
+    scoreTextPlayer1->setFont(font);
+    scoreTextPlayer1->setDefaultTextColor(textBrush.color());
+    textBrush.setColor(QColorConstants::Svg::pink);
+    scoreTextPlayer2->setFont(font);
+    scoreTextPlayer2->setDefaultTextColor(textBrush.color());
+
+    scoreTextPlayer1->setPlainText("Score: " + QString::number(scorePlayer1));
+    scoreTextPlayer2->setPlainText("Score: " + QString::number(scorePlayer2));
+
+    // Add the score text items to the scene
+    scene->addItem(scoreTextPlayer1);
+    scene->addItem(scoreTextPlayer2);
 
     scene->addItem(player1);
     scene->addItem(player2);
 
-    addGhost(":/Images/Sprites/ghost_normal.png", 100, 100); // Replace ":/images/ghost1.png" with the actual path to the ghost image file
-    addGhost(":/Images/Sprites/ghost_normal.png", 300, 200); // Replace ":/images/ghost2.png" with the actual path to the ghost image file
-    addGhost(":/Images/Sprites/ghost_normal.png", 400, 300); // Replace ":/images/ghost3.png" with the actual path to the ghost image file
-    addGhost(":/Images/Sprites/ghost_normal.png", 200, 400); // Replace ":/images/ghost4.png" with the actual path to the ghost image file
-    addGhost(":/Images/Sprites/ghost_normal.png", 350, 150); // Replace ":/images/ghost5.png" with the actual path to the ghost image file
+    addGhost(":/Images/Sprites/ghost_normal.png", 725, 20); // Sağ yukarı
+    addGhost(":/Images/Sprites/ghost_normal.png", 125, 550); // Sol aşağı
+    addGhost(":/Images/Sprites/ghost_normal.png", 25, 400); // Sol aşağı sol çarpraz
+    addGhost(":/Images/Sprites/ghost_normal.png", 650, 200); // Sağ yukarı sol çarpraz
+    addGhost(":/Images/Sprites/ghost_normal.png", 400, 375);
+    addGhost(":/Images/Sprites/ghost_normal.png", 200, 220);
+    addGhost(":/Images/Sprites/ghost_normal.png", 400, 100);
 
-
+    setFrameShape(QFrame::NoFrame);
+    setRenderHint(QPainter::Antialiasing);
     setWindowTitle("Hide and Seek");
-
 
     QTimer* collisionTimer = new QTimer(this);
     connect(collisionTimer, &QTimer::timeout, this, &GameView::checkCollisions);
@@ -60,8 +85,9 @@ void GameView::keyPressEvent(QKeyEvent *event)
 inline void GameView::checkCollisions()
 {
     foreach (Ghost* ghost, ghosts) {
-        ghost->setVisible(false);
-        if (ghost->collidesWithItem(player1->vision)) {
+        if(!ghost->collidesWithItem(player1->vision) && !ghost->collidesWithItem(player2->vision)){
+            ghost->setVisible(false);
+        } else if (ghost->collidesWithItem(player1->vision)) {
             ghost->setVisible(true);
             QTimer::singleShot(1000, ghost, [ghost, this]() {
                 scene->removeItem(ghost);
@@ -71,24 +97,22 @@ inline void GameView::checkCollisions()
             });
         } else if (ghost->collidesWithItem(player2->vision)) {
             ghost->setVisible(true);
-            QTimer::singleShot(2000, ghost, [ghost, this]() {
+            QTimer::singleShot(1000, ghost, [ghost, this]() {
                 scene->removeItem(ghost);
                 ghosts.removeOne(ghost);
-                updateScore(player1);
+                updateScore(player2);
                 delete ghost;
             });
         }
-        else
-            ghost->setVisible(false);
     }
 
     QString message;
     if (ghosts.isEmpty()) {
         // Game over, determine the winner
         if (scorePlayer1 > scorePlayer2) {
-            message = "Green Alien wins!"; // Pink alien is player1
+            message = "Green Alien wins!"; // Green alien is player1
         } else {
-            message = "Pink Alien wins!"; // Green alien is player2
+            message = "Pink Alien wins!"; // Pink alien is player2
         }
         QMessageBox::information(this, "Game Over", message);
         QApplication::quit();
@@ -98,7 +122,6 @@ inline void GameView::checkCollisions()
 
 void GameView::addGhost(const QString& imagePath, qreal x, qreal y)
 {
-    //explicit heap dynamic variable
     Ghost* ghost = new Ghost(imagePath);
     ghost->setPos(x, y);
     scene->addItem(ghost);
@@ -106,18 +129,15 @@ void GameView::addGhost(const QString& imagePath, qreal x, qreal y)
     ghost->startMoving();
 }
 
-//Using of exception handling
 void GameView::updateScore(Player* player)
 {
     try {
-        if (player == player1) {
+        if(player == player1) {
             scorePlayer1++;
-            qDebug() << "Player 1 Score: " << scorePlayer1;
-        } else if (player == player2) {
-            scorePlayer2++;
-            qDebug() << "Player 2 Score: " << scorePlayer2;
+            scoreTextPlayer1->setPlainText("Score: " + QString::number(scorePlayer1));
         } else {
-            throw std::invalid_argument("Invalid player provided.");
+            scorePlayer2++;
+            scoreTextPlayer2->setPlainText("Score: " + QString::number(scorePlayer2));
         }
     } catch (const std::exception& e) {
         qDebug() << "Error updating score: " << e.what();

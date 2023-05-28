@@ -20,7 +20,7 @@ void Ghost::startMoving()
 
 void Ghost::move()
 {
-    if(0 < pos().x() && pos().x() < 800 && 0 < pos().y() && pos().y() < 600){
+    if(0 < pos().x() && pos().x() < 780 && 0 < pos().y() && pos().y() < 580){
         // Simple movement pattern: diagonal movement
         int dx = QRandomGenerator::global()->bounded(-stepSize, stepSize + 2);
         int dy = QRandomGenerator::global()->bounded(-stepSize, stepSize + 2);

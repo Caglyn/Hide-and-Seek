@@ -7,6 +7,7 @@
 #include <QList>
 #include "player.h"
 #include "ghost.h"
+#include <QGraphicsTextItem>
 
 class GameView : public QGraphicsView
 {
@@ -22,6 +23,7 @@ protected:
 private slots:
     void checkCollisions();
 
+
 private:
     QGraphicsScene* scene;
     Player* player1;
@@ -29,6 +31,8 @@ private:
     QList<Ghost*> ghosts;
     int scorePlayer1;
     int scorePlayer2;
+    QGraphicsTextItem* scoreTextPlayer1;
+    QGraphicsTextItem* scoreTextPlayer2;
 
     void addGhost(const QString& imagePath, qreal x, qreal y);
     void updateScore(Player* player);

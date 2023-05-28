@@ -9,7 +9,6 @@ Player::Player(const QString& imagePath, QGraphicsItem *parent) : QGraphicsPixma
     setZValue(1); // Set a higher zValue for the player items
 }
 
-
 void Player::keyPressEvent(QKeyEvent *event)
 {
     switch (event->key()) {
@@ -63,7 +62,7 @@ QRectF Player::boundingRect() const{
 
 void Player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    setViewRange(100);
+    setViewRange(75);
     QPointF center = boundingRect().center();
 
     // Create the ellipse as a child item of the player
