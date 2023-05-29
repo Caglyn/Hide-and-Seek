@@ -1,5 +1,7 @@
 #include "gameview.h"
 #include "qapplication.h"
+#include <random>
+
 
 
 // Constructor
@@ -52,13 +54,13 @@ GameView::GameView(QWidget *parent) : QGraphicsView(parent), scene(new QGraphics
     scene->addItem(player2);
 
     // Add the ghosts to the scene
-    addGhost(":/Images/Sprites/ghost_normal.png", 725, 20);
-    addGhost(":/Images/Sprites/ghost_normal.png", 125, 550);
-    addGhost(":/Images/Sprites/ghost_normal.png", 25, 400);
-    addGhost(":/Images/Sprites/ghost_normal.png", 650, 200);
-    addGhost(":/Images/Sprites/ghost_normal.png", 400, 375);
-    addGhost(":/Images/Sprites/ghost_normal.png", 200, 220);
-    addGhost(":/Images/Sprites/ghost_normal.png", 400, 100);
+    addGhost(":/Images/Sprites/ghost_normal.png", 100, 700, 100, 500);
+    addGhost(":/Images/Sprites/ghost_normal.png", 100, 700, 100, 500);
+    addGhost(":/Images/Sprites/ghost_normal.png", 100, 700, 100, 500);
+    addGhost(":/Images/Sprites/ghost_normal.png", 100, 700, 100, 500);
+    addGhost(":/Images/Sprites/ghost_normal.png", 100, 700, 100, 500);
+    addGhost(":/Images/Sprites/ghost_normal.png", 100, 700, 100, 500);
+    addGhost(":/Images/Sprites/ghost_normal.png", 100, 700, 100, 500);
 
     setFrameShape(QFrame::NoFrame);
     setRenderHint(QPainter::Antialiasing);
@@ -79,7 +81,6 @@ GameView::~GameView()
 {
     qDeleteAll(ghosts);
 }
-
 
 
 // Using the inline function
@@ -109,21 +110,34 @@ inline void GameView::checkCollisions()
 
     QString message;
     if (ghosts.isEmpty()) {
-        // Game over, determine the winner
-            message = "You find all the ghots!"; // Green alien is player1
+        message = "You find all the ghosts!";
         QMessageBox::information(this, "Game Over", message);
+        if(isPlayer1Turn)
+            startGame();
+        else
+            endGame();
     }
 
 }
 
-void GameView::addGhost(const QString& imagePath, qreal x, qreal y)
+void GameView::addGhost(const QString& imagePath, qreal minX, qreal maxX, qreal minY, qreal maxY)
 {
+    // Generate random positions within the specified area
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> disX(minX, maxX);
+    std::uniform_real_distribution<> disY(minY, maxY);
+
+    qreal x = disX(gen);
+    qreal y = disY(gen);
+
     Ghost* ghost = new Ghost(imagePath);
     ghost->setPos(x, y);
     scene->addItem(ghost);
     ghosts.append(ghost);
     ghost->startMoving();
 }
+
 
 void GameView::updateScore(Player* player)
 {
@@ -146,6 +160,7 @@ void GameView::handleTimerTimeout()
 
     int minutes = remainingTime / 60;  // Calculate the minutes
     int seconds = remainingTime % 60;  // Calculate the seconds
+    int currentPlayer;
 
     // Format the minutes and seconds as a string
     QString timeString = QString("%1:%2").arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0'));
@@ -154,8 +169,9 @@ void GameView::handleTimerTimeout()
     zamanTxt->setPlainText("Time: " + timeString);
 
     if (remainingTime == 0) {
+        if(isPlayer1Turn) {currentPlayer=1; } else { currentPlayer=2; }
         // Display the "Game Over" alert
-        QMessageBox::information(this, "Game Over", "Time is up for Player!");
+        QMessageBox::information(this, "Game Over", &"Time is up for Player" [ currentPlayer]);
 
         // Stop the timer
         timer->stop();
@@ -177,7 +193,7 @@ void GameView::keyPressEvent(QKeyEvent *event)
     QGraphicsView::keyPressEvent(event);
 
 
-        // Player 1's turn
+    // Player 1's turn
     if (isPlayer1Turn) {
         // Player 1's turn
         if (event->key() == Qt::Key_A || event->key() == Qt::Key_D || event->key() == Qt::Key_W || event->key() == Qt::Key_S) {
@@ -197,52 +213,69 @@ void GameView::keyPressEvent(QKeyEvent *event)
 
 void GameView::startGame()
 {
-        // Switch to the next player's turn
-        isPlayer1Turn = !isPlayer1Turn;
+    // Switch to the next player's turn
+    isPlayer1Turn = !isPlayer1Turn;
 
-        // Reset the remaining time
-        remainingTime = 60;
+    // Reset the remaining time
+    remainingTime = 60;
 
-        // Update the current player text
-        QString currentPlayerText = isPlayer1Turn ? "Player 1's Turn" : "Player 2's Turn";
-        //currentPlayerText->setPlainText(currentPlayerText);
+    // Update the current player text
+    QString currentPlayerText = isPlayer1Turn ? "Player 1's Turn" : "Player 2's Turn";
+    //currentPlayerText->setPlainText(currentPlayerText);
 
-        // Hide the inactive player
-        if (isPlayer1Turn) {
-            player2->setVisible(false);
-            player1->setVisible(true);
-        } else {
-            player1->setVisible(false);
-            player2->setVisible(true);
-        }
+    // Hide the inactive player
+    if (isPlayer1Turn) {
+        player2->setVisible(false);
+        player1->setVisible(true);
+    } else {
+        player1->setVisible(false);
+        player2->setVisible(true);
+    }
 
-        // Start the timer
-        timer->start(1000);
+    // Remove the existing ghosts from the scene
+    foreach (Ghost* ghost, ghosts) {
+        scene->removeItem(ghost);
+        delete ghost;
+    }
+    ghosts.clear();
 
-        // Show the game view
-        show();
+    // Add the new ghosts to the scene
+    addGhost(":/Images/Sprites/ghost_normal.png", 100, 700, 100, 500);
+    addGhost(":/Images/Sprites/ghost_normal.png", 100, 700, 100, 500);
+    addGhost(":/Images/Sprites/ghost_normal.png", 100, 700, 100, 500);
+    addGhost(":/Images/Sprites/ghost_normal.png", 100, 700, 100, 500);
+    addGhost(":/Images/Sprites/ghost_normal.png", 100, 700, 100, 500);
+    addGhost(":/Images/Sprites/ghost_normal.png", 100, 700, 100, 500);
+    addGhost(":/Images/Sprites/ghost_normal.png", 100, 700, 100, 500);
+
+    // Start the timer
+    timer->start(1000);
+
+    // Show the game view
+    show();
 }
+
 
 
 void GameView::endGame()
 {
-        // Display the final scores
-        QMessageBox::information(this, "Game Over", "Game has ended!\n\nPlayer 1 Score: " + QString::number(scorePlayer1) +
-                                                        "\nPlayer 2 Score: " + QString::number(scorePlayer2));
+    // Display the final scores
+    QMessageBox::information(this, "Game Over", "Game has ended!\n\nPlayer 1 Score: " + QString::number(scorePlayer1) +
+                                                    "\nPlayer 2 Score: " + QString::number(scorePlayer2));
 
-        // Determine the winner
-        QString winner;
-        if (scorePlayer1 > scorePlayer2) {
-            winner = "Player 1 (Green Alien)";
-        } else if (scorePlayer2 > scorePlayer1) {
-            winner = "Player 2 (Pink Alien)";
-        } else {
-            winner = "It's a tie!";
-        }
+    // Determine the winner
+    QString winner;
+    if (scorePlayer1 > scorePlayer2) {
+        winner = "Player 1 (Green Alien)";
+    } else if (scorePlayer2 > scorePlayer1) {
+        winner = "Player 2 (Pink Alien)";
+    } else {
+        winner = "It's a tie!";
+    }
 
-        // Display the winner
-        QMessageBox::information(this, "Winner", "The winner is: " + winner);
+    // Display the winner
+    QMessageBox::information(this, "Winner", "The winner is: " + winner);
 
-        // Quit the application
-        QApplication::quit();
+    // Quit the application
+    QApplication::quit();
 }
