@@ -5,3 +5,7 @@ While one of the games can play the game at the same time, in other game players
 
 But unfortunately, we have added the video gameplay despite the problem of not opening on every computer.
 
+
+
+https://github.com/Caglyn/CENG206-Project2-Group-9/assets/126319075/409f2080-f624-4bac-941c-ac98e32e8927
+
