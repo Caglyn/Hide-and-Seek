@@ -130,7 +130,7 @@ void GameView::addGhost(const QString& imagePath, qreal minX, qreal maxX, qreal 
 
     qreal x = disX(gen);
     qreal y = disY(gen);
-
+    //Expilicit heap dynamic variable
     Ghost* ghost = new Ghost(imagePath);
     ghost->setPos(x, y);
     scene->addItem(ghost);
