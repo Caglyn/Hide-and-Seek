@@ -140,7 +140,7 @@ void GameView::addGhost(const QString& imagePath, qreal minX, qreal maxX, qreal 
 
 
 void GameView::updateScore(Player* player)
-{
+{  //Exception handling
     try {
         if(player == player1) {
             scorePlayer1++;
@@ -150,7 +150,7 @@ void GameView::updateScore(Player* player)
             scoreTextPlayer2->setPlainText("Score: " + QString::number(scorePlayer2));
         }
     } catch (const std::exception& e) {
-        qDebug() << "Error updating score: " << e.what();
+        qDebug() << "Error  score: " << e.what();
     }
 }
 
