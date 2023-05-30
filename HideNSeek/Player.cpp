@@ -7,6 +7,8 @@ Player::Player(const QString& imagePath, QGraphicsItem *parent) : QGraphicsPixma
     setPixmap(playerImage.scaled(50, 50)); // Set the size of the player image
     stepSize = 10;
     setZValue(1); // Set a higher zValue for the player items
+
+
 }
 
 void Player::keyPressEvent(QKeyEvent *event)

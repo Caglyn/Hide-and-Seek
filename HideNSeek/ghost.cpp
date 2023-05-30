@@ -4,23 +4,23 @@
 
 Ghost::Ghost(const QString& imagePath, QGraphicsItem* parent) : QObject(), QGraphicsPixmapItem(parent)
 {
-    QPixmap ghostImage(imagePath);
-    setPixmap(ghostImage.scaled(25, 25)); // Set the size of the ghost image
+// Explicitly allocate QPixmap on the heap
+    QPixmap* ghostImage = new QPixmap(imagePath);
+    setPixmap(ghostImage->scaled(25, 25));
     stepSize = 5;
     setZValue(1);
-
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Ghost::move);
 }
 
 void Ghost::startMoving()
 {
-    timer->start(200); // Adjust the interval as needed
+    timer->start(200);
 }
 
 void Ghost::move()
 {
-    if(0 < pos().x() && pos().x() < 780 && 0 < pos().y() && pos().y() < 580){
+    if (0 < pos().x() && pos().x() < 780 && 0 < pos().y() && pos().y() < 580) {
         // Simple movement pattern: diagonal movement
         int dx = QRandomGenerator::global()->bounded(-stepSize, stepSize + 2);
         int dy = QRandomGenerator::global()->bounded(-stepSize, stepSize + 2);
@@ -31,4 +31,9 @@ void Ghost::move()
             moveBy(dx, dy);
         }
     }
+}
+
+Ghost::~Ghost()
+{
+    delete timer; // Release the dynamically allocated memory for the timer
 }

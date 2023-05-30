@@ -1,6 +1,8 @@
+
 #ifndef GHOST_H
 #define GHOST_H
 
+#include <QObject>
 #include <QGraphicsPixmapItem>
 #include <QTimer>
 
@@ -8,11 +10,10 @@ class Ghost : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 public:
-    Ghost(const QString& imagePath, QGraphicsItem* parent = nullptr);
-    void startMoving();
+    explicit Ghost(const QString& imagePath, QGraphicsItem* parent = nullptr);
+    virtual ~Ghost(); // Virtual destructor
 
-signals:
-    void ghostCaught();
+    void startMoving();
 
 private slots:
     void move();
