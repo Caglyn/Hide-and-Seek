@@ -130,7 +130,7 @@ void GameView::addGhost(const QString& imagePath, qreal minX, qreal maxX, qreal 
 
     qreal x = disX(gen);
     qreal y = disY(gen);
-    //Expilicit heap dynamic variable
+
     Ghost* ghost = new Ghost(imagePath);
     ghost->setPos(x, y);
     scene->addItem(ghost);
@@ -140,7 +140,7 @@ void GameView::addGhost(const QString& imagePath, qreal minX, qreal maxX, qreal 
 
 
 void GameView::updateScore(Player* player)
-{  //Exception handling
+{
     try {
         if(player == player1) {
             scorePlayer1++;
@@ -150,7 +150,7 @@ void GameView::updateScore(Player* player)
             scoreTextPlayer2->setPlainText("Score: " + QString::number(scorePlayer2));
         }
     } catch (const std::exception& e) {
-        qDebug() << "Error  score: " << e.what();
+        qDebug() << "Error updating score: " << e.what();
     }
 }
 
@@ -160,7 +160,7 @@ void GameView::handleTimerTimeout()
 
     int minutes = remainingTime / 60;  // Calculate the minutes
     int seconds = remainingTime % 60;  // Calculate the seconds
-    int currentPlayer;
+    QString currentPlayer;
 
     // Format the minutes and seconds as a string
     QString timeString = QString("%1:%2").arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0'));
@@ -169,10 +169,9 @@ void GameView::handleTimerTimeout()
     zamanTxt->setPlainText("Time: " + timeString);
 
     if (remainingTime == 0) {
-        if(isPlayer1Turn) {currentPlayer=1; } else { currentPlayer=2; }
+        if(isPlayer1Turn) {currentPlayer="1"; } else { currentPlayer="2"; }
         // Display the "Game Over" alert
-        QMessageBox::information(this, "Game Over", &"Time is up for Player" [ currentPlayer]);
-
+        QMessageBox::information(this, "Game Over!", "Time is up for Player" + currentPlayer + " !");
         // Stop the timer
         timer->stop();
 

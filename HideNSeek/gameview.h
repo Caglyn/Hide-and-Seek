@@ -5,7 +5,7 @@
 #include <QKeyEvent>
 #include <QTimer>
 #include <QList>
-#include "player.h"
+#include "Player.h"
 #include "ghost.h"
 #include <QGraphicsTextItem>
 #include <QInputDialog>
@@ -27,6 +27,8 @@ private slots:
     void checkCollisions();
     void handleTimerTimeout();
 
+public slots:
+    void startGame();
 
 private:
     QTimer* timer;// Variable to store the remaining time
@@ -48,9 +50,8 @@ private:
     bool isPlayer1Turn;
 
 
-    void addGhost(const QString& imagePath, qreal x, qreal y);
+    void addGhost(const QString& imagePath, qreal x, qreal y, qreal mx, qreal my);
     void updateScore(Player* player);
-    void startGame();
     void endGame();
 };
 
