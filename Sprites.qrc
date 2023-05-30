@@ -1,7 +1,0 @@
-<RCC>
-    <qresource prefix="/Images">
-        <file>kenney_platformer-art-extended-enemies/Enemy sprites/ghost_normal.png</file>
-        <file>kenney_platformer-art-extended-enemies/Alien sprites/alienGreen.png</file>
-        <file>kenney_platformer-art-extended-enemies/Alien sprites/alienPink.png</file>
-    </qresource>
-</RCC>
