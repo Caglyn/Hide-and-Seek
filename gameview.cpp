@@ -66,21 +66,30 @@ void GameView::checkCollisions()
 
 void GameView::addGhost(const QString& imagePath, qreal x, qreal y)
 {
+   //explicit heap dynamic variable
     Ghost* ghost = new Ghost(imagePath);
     ghost->setPos(x, y);
     scene->addItem(ghost);
     ghosts.append(ghost);
-    ghost->startMoving();
+    ghost->startMoving(); 
 }
 
 void GameView::updateScore(Player* player)
 {
-    if (player == player1) {
-        scorePlayer1++;
-        qDebug() << "Player 1 Score: " << scorePlayer1;
-    } else if (player == player2) {
-        scorePlayer2++;
-        qDebug() << "Player 2 Score: " << scorePlayer2;
-    }
+   //Exception handling
+     try {
+        if (player == player1) {
+            scorePlayer1++;
+            qDebug() << "Player 1 Score: " << scorePlayer1;
+        } else if (player == player2) {
+            scorePlayer2++;
+            qDebug() << "Player 2 Score: " << scorePlayer2;
+        } else {
+            throw std::invalid_argument("Invalid player provided.");
+        }
+    } catch (const std::exception& e) {
+        qDebug() << "Error  score: " << e.what();
+    }  
+            
 }
 
