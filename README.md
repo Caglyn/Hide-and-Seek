@@ -1,9 +1,9 @@
 # CENG206-Project2-Group-9
 
 There are 2 versions of the Hide-and-Seek game. 
-While one of the games can play the game at the same time, in other game players can move more easily than two-player and includes a race against time in 2 rounds, when the game is over for both players, the winner is printed on the screen according to the scores.
-
-But unfortunately, we have added the video gameplay despite the problem of not opening on every computer.
+In first version, players play the game simultaneously. There are 7 ghosts and the player who finds more ghosts than the other player wins. There are no time limit in this version, so all ghosts have to be found to end the game.
+In second version, players play the game one by one with limited time. The player who finds more ghosts in 30 seconds wins the game.
+Here's the gameplay of the project:
 
 
 
