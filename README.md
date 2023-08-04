@@ -1,4 +1,4 @@
-# CENG206-Project2-Group-9
+# Hide and Seek Game Project made with QtCreator
 
 There are 2 versions of the Hide-and-Seek game. 
 In first version, players play the game simultaneously. There are 7 ghosts and the player who finds more ghosts than the other player wins. There are no time limit in this version, so all ghosts have to be found to end the game.
